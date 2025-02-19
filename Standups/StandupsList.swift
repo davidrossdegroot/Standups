@@ -5,13 +5,29 @@
 //  Created by David De Groot on 2/18/25.
 //
 
+import SwiftUINavigation
 import SwiftUI
 
 final class StandupsListModel: ObservableObject {
+    @Published var destination: Destination?
     @Published var standups: [Standup]
+    
+    @CasePathable
+    enum Destination {
+        case add(Standup)
+    }
 
-    init(standups: [Standup] = []) {
+    init(
+        // Remove the .mock - just for testing
+        standups: [Standup] = [.mock],
+        destination: Destination? = nil
+    ) {
+      self.destination = destination
       self.standups = standups
+    }
+    
+    func addStandupButtonTapped() {
+        self.destination = .add(Standup(id: UUID()))
     }
 }
 
@@ -24,7 +40,17 @@ struct StandupsList: View {
               CardView(standup: standup).listRowBackground(standup.theme.mainColor)
           }
       }
+      .toolbar {
+          Button {
+              self.model.addStandupButtonTapped()
+          } label: {
+              Image(systemName: "plus")
+          }
+      }
       .navigationTitle("Daily Standups")
+      .sheet(item: self.$model.destination.add) { $standupModel in
+          EditStandupView(standup: $standupModel)
+      }
     }
   }
 }

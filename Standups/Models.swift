@@ -45,7 +45,7 @@ enum Theme:
   case lavender
   case magenta
   case navy
-  case orange
+  case appOrange
   case oxblood
   case periwinkle
   case poppy
@@ -64,7 +64,7 @@ enum Theme:
       .bubblegum,
       .buttercup,
       .lavender,
-      .orange,
+      .appOrange,
       .periwinkle,
       .poppy,
       .seafoam,
@@ -115,7 +115,7 @@ extension Standup {
           """
       )
     ],
-    theme: .yellow,
+    theme: .appOrange,
     title: "Design"
   )
 }
